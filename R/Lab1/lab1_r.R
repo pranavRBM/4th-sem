@@ -3,7 +3,7 @@ library(ggplot2)
 library(tidyr)
 
 # Step 1: Read dataset from CSV file
-file_path <- "/home/ankitha/train.csv"
+file_path <- "R\\Lab1\\train.csv"
 data <- read.csv(file_path)
 
 # Step 2: Exploratory Data Analysis (EDA)
@@ -14,10 +14,12 @@ print(summary_stats)
 # Data visualization
 # For example, let's create a histogram for age
 print(ggplot(data, aes(x = Age)) +
-  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
-  labs(title = "Distribution of Age on Titanic",
-       x = "Age",
-       y = "Frequency"))
+     geom_histogram(binwidth = 5, fill = "blue", color = "black") +
+     labs(
+          title = "Distribution of Age on Titanic",
+          x = "Age",
+          y = "Frequency"
+     ))
 
 
 # Identifying missing values
@@ -28,7 +30,7 @@ print(missing_values)
 # Remove duplicates
 data <- distinct(data)
 
-#Removing missing values
+# Removing missing values
 data$Age[is.na(data$Age)] <- mean(data$Age, na.rm = TRUE)
 missing_values <- colSums(is.na(data))
 print(missing_values)
@@ -36,15 +38,15 @@ print(missing_values)
 # Data manipulation operations
 # Filtering: Select passengers with age greater than 18
 adult_passengers <- filter(data, Age > 18)
-#print(adult_passengers)
+# print(adult_passengers)
 
 # Sorting: Sort data by Fare in descending order
 sorted_titanic <- arrange(data, desc(Fare))
-#print(sorted_titanic)
+# print(sorted_titanic)
 
 # Merging datasets (if applicable)
 # Example: If you have another dataset named "additional_data"
-file_path <- "/home/ankitha/Adata.csv"
+file_path <- "R\\Lab1\\train.csv"
 A <- read.csv(file_path)
 # Check column names in both datasets
 print(colnames(data))
@@ -52,7 +54,7 @@ print(colnames(A))
 
 # Merge based on 'PassengerId'
 merged_data <- merge(data, A, by.x = "PassengerId", by.y = "PassengerId")
-print(merged_data )
+print(merged_data)
 
 
 # Statistical analysis
@@ -74,13 +76,10 @@ print(correlation_coefficient)
 
 
 print(ggplot(data, aes(x = factor(Survived), fill = factor(Survived))) +
-  geom_bar() +
-  labs(title = "Number of Survivors on Titanic",
-       x = "Survived",
-       y = "Count") +
-  scale_fill_manual(values = c("red", "green")))
-
-
-
-
-
+     geom_bar() +
+     labs(
+          title = "Number of Survivors on Titanic",
+          x = "Survived",
+          y = "Count"
+     ) +
+     scale_fill_manual(values = c("red", "green")))
