@@ -2,7 +2,7 @@ library(ggplot2)
 library(dplyr)
 
 # Read the dataset from CSV file
-data <- read.csv("C:\\Users\\Pranav R Bhat\\Desktop\\4th_semister\\4th-sem\\R\\lab2\\marks.csv") # Replace "your_dataset.csv" with the actual filename
+data <- read.csv("/home/ankitha/R/marks.csv") # Replace "your_dataset.csv" with the actual filename
 
 # Check for missing values
 sum(is.na(data))
@@ -35,4 +35,5 @@ print(ggplot(data, aes(x = fitted(lm_model), y = residuals(lm_model))) +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
   ggtitle("Residuals Plot") +
   xlab("Fitted values") +
-  ylab("Residuals"))
+  ylab("Residuals") +
+  theme_minimal())

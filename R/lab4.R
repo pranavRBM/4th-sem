@@ -33,10 +33,8 @@
 library(rvest)
 library(xml2)
 library(httr)
-
-
 # Define the URL
-# url <- "https://www.example.com"n
+# url <- "https://www.example.com"
 # If authentication is required, set your username and password
 # username <- "your_username"
 # password <- "your_password"
@@ -44,7 +42,8 @@ library(httr)
 # response <- GET(url, authenticate(username, password))
 # Specify the Target Website and URL
 url <-
-    "https://en.wikipedia.org/w/index.php?fulltext=1&search=List+of+countries+and+dependencies+and+their+capitals+in+native+l&title=Special%3ASearch&ns0=1"
+    "https://en.wikipedia.org/wiki/List_of_countries_and_dependencies_and_their_capitals_in_native_l
+anguages"
 # Send HTTP Requests and Handle Authentication (if required)
 response <- tryCatch(GET(url), error = function(e) e)
 # Check if connection was successful

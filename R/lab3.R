@@ -5,7 +5,7 @@
 # • Parse and extract the desired data using CSS selectors, XPath, or JSON parsing
 # techniques.
 # • Save the extracted data to a file or perform further analysis on it.
-# Load necessary libraries
+# # Load necessary libraries
 library(rvest)
 # Specify the URL of the website to scrape
 url <- "http://books.toscrape.com/"
