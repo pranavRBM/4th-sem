@@ -16,7 +16,7 @@ lm_model <- lm(Age ~ Fare + Pclass, data = titanic)
 
 # Print coefficients and intercept
 print(coef(lm_model))
-print(coef(lm_model)[1])  # This prints the intercept
+print(coef(lm_model)[1]) # This prints the intercept
 
 # Evaluate the model's goodness-of-fit
 summary(lm_model)

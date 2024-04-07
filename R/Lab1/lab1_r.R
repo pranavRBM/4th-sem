@@ -3,7 +3,7 @@ library(ggplot2)
 library(tidyr)
 
 # Step 1: Read dataset from CSV file
-file_path <- "R\\Lab1\\train.csv"
+file_path <- "C:\\Users\\Pranav R Bhat\\Desktop\\4th_semister\\4th-sem\\R\\Lab1\\train.csv"
 data <- read.csv(file_path)
 
 # Step 2: Exploratory Data Analysis (EDA)
@@ -46,7 +46,7 @@ sorted_titanic <- arrange(data, desc(Fare))
 
 # Merging datasets (if applicable)
 # Example: If you have another dataset named "additional_data"
-file_path <- "R\\Lab1\\train.csv"
+file_path <- "C:\\Users\\Pranav R Bhat\\Desktop\\4th_semister\\4th-sem\\R\\Lab1\\train.csv"
 A <- read.csv(file_path)
 # Check column names in both datasets
 print(colnames(data))
