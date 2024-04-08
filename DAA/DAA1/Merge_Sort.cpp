@@ -1,6 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <ctime>
+#include <windows.h>
 
 void merge(int B[], int p, int C[], int q, int A[]) 
 {
@@ -57,9 +59,10 @@ int main()
         }
 
         struct timespec start, end;
-        clock_gettime(CLOCK_MONOTONIC, &start);
+        DWORD start = GetTickCount(); // Get start time
         mergeSort(A, n);
-        clock_gettime(CLOCK_MONOTONIC, &end);
+        DWORD end = GetTickCount(); // Get end time
+        double time_taken = (end - start) / 1000.0;;
         double time_taken = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
 
         fprintf(fp, "%d,%.6f\n", n, time_taken);
