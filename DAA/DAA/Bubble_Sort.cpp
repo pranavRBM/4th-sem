@@ -4,7 +4,10 @@
 
 int main() 
 {
-    FILE *fp = fopen("time_vs_n_selection.csv", "w");
+    clock_t start, end;
+    double cpu_time_used;
+
+    FILE *fp = fopen("time_vs_n_bubble.csv", "w");
     if (!fp) 
     { 
         printf("Error opening file.\n"); 
@@ -19,36 +22,33 @@ int main()
         int A[n];
         for (int i = 0; i < n; i++) 
         {
-            A[i] = rand() % 1000; 
-        }
+            A[i] = rand() % 1000;
+        } 
 
-        struct timespec start, end;
-        clock_gettime(CLOCK_MONOTONIC, &start); 
+        start = clock();
 
-        for (int i = 0; i < n - 1; i++) 
+        for (int i = 0; i < n - 1; i++)
         {
-            int min = i;
-            for (int j = i + 1; j < n; j++) 
+            for (int j = 0; j < n - 1 - i; j++) 
             {
-                if (A[j] < A[min]) 
-                {
-                    min = j;
+                if (A[j + 1] < A[j]) 
+                { 
+                    int temp = A[j]; 
+                    A[j] = A[j + 1]; 
+                    A[j + 1] = temp; 
                 }
             }
-            int temp = A[i]; 
-            A[i] = A[min]; 
-            A[min] = temp;
-        }
+        } 
 
-        clock_gettime(CLOCK_MONOTONIC, &end); 
-
-        double time_taken = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
-        fprintf(fp, "%d,%.6f\n", n, time_taken);
+        end = clock();
+        cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+        fprintf(fp, "%d,%.6f\n", n, cpu_time_used);
     }
     fclose(fp);
-    printf("Experiment completed. Results saved to time_vs_n_selection.csv.\n");
+    printf("Experiment completed. Results saved to time_vs_n_bubble.csv.\n");
     return 0;
 }
+
 
     // FILE *fp = fopen("time_vs_n_bubble.csv", "w");
     // if (!fp) 

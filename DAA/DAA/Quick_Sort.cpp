@@ -1,47 +1,43 @@
-#include <iostream>
-#include <fstream>
-#include <cstdlib>
-#include <ctime>
-#include <windows.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-void merge(int B[], int p, int C[], int q, int A[]) 
+int partition(int A[], int l, int r) 
 {
-    for (int i = 0, j = 0, k = 0; i < p || j < q; k++) 
+    int pivot = A[r], i = l - 1;
+    for (int j = l; j <= r - 1; j++)
     {
-        if (i < p && (j >= q || B[i] <= C[j])) 
-        {
-            A[k] = B[i++];
-        }
-        else
-        {
-            A[k] = C[j++];
+        if (A[j] <= pivot) 
+        { 
+            int temp = A[++i]; 
+            A[i] = A[j]; 
+            A[j] = temp; 
         }
     }
+
+    int temp = A[i + 1]; 
+    A[i + 1] = A[r];
+    A[r] = temp;
+
+    return i + 1;
 }
 
-void mergeSort(int A[], int n) 
+void quickSort(int A[], int l, int r) 
 {
-    if (n > 1) 
-    {
-        int mid = n / 2, B[mid], C[n - mid];
-        for (int i = 0; i < mid; i++) 
-        {
-            B[i] = A[i];
-        }
-        for (int i = mid; i < n; i++) 
-        {
-            C[i - mid] = A[i];
-        }
-
-        mergeSort(B, mid);
-        mergeSort(C, n - mid);
-        merge(B, mid, C, n - mid, A);
+    if (l < r) 
+    { 
+        int s = partition(A, l, r); 
+        quickSort(A, l, s - 1); 
+        quickSort(A, s + 1, r); 
     }
 }
 
 int main() 
 {
-    FILE *fp = fopen("time_vs_n_merge.csv", "w");
+    clock_t start, end;
+    double cpu_time_used;
+
+    FILE *fp = fopen("time_vs_n_quick.csv", "w");
     if (!fp) 
     { 
         printf("Error opening file.\n"); 
@@ -50,6 +46,7 @@ int main()
     fprintf(fp, "n,time_taken\n");
 
     srand(time(NULL)); 
+
     for (int n = 100; n <= 2000; n += 100) 
     {
         int A[n];
@@ -58,17 +55,17 @@ int main()
             A[i] = rand() % 1000; 
         }
 
-        struct timespec start, end;
-        DWORD start = GetTickCount(); // Get start time
-        mergeSort(A, n);
-        DWORD end = GetTickCount(); // Get end time
-        double time_taken = (end - start) / 1000.0;;
-        double time_taken = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
+        start = clock();
 
-        fprintf(fp, "%d,%.6f\n", n, time_taken);
+        quickSort(A, 0, n - 1);
+        
+        end = clock();
+        cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+        fprintf(fp, "%d,%.6f\n", n, cpu_time_used);
     }
+
     fclose(fp);
-    printf("Experiment completed. Results saved to time_vs_n_merge.csv.\n");
+    printf("Experiment completed. Results saved to time_vs_n_quick.csv.\n");
     return 0;
 }
 

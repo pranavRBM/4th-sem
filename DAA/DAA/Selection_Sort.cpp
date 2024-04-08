@@ -2,46 +2,19 @@
 #include <stdlib.h>
 #include <time.h>
 
-int partition(int A[], int l, int r) 
-{
-    int pivot = A[r], i = l - 1;
-    for (int j = l; j <= r - 1; j++)
-    {
-        if (A[j] <= pivot) 
-        { 
-            int temp = A[++i]; 
-            A[i] = A[j]; 
-            A[j] = temp; 
-        }
-    }
-
-    int temp = A[i + 1]; 
-    A[i + 1] = A[r];
-    A[r] = temp;
-
-    return i + 1;
-}
-
-void quickSort(int A[], int l, int r) 
-{
-    if (l < r) 
-    { 
-        int s = partition(A, l, r); 
-        quickSort(A, l, s - 1); 
-        quickSort(A, s + 1, r); 
-    }
-}
-
 int main() 
 {
-    FILE *fp = fopen("time_vs_n_quick.csv", "w");
+    clock_t start, end;
+    double cpu_time_used;
+
+    FILE *fp = fopen("time_vs_n_selection.csv", "w");
     if (!fp) 
     { 
         printf("Error opening file.\n"); 
         return 1; 
     }
-    fprintf(fp, "n,time_taken\n");
 
+    fprintf(fp, "n,time_taken\n");
     srand(time(NULL)); 
 
     for (int n = 100; n <= 2000; n += 100) 
@@ -52,17 +25,29 @@ int main()
             A[i] = rand() % 1000; 
         }
 
-        struct timespec start, end;
-        clock_gettime(CLOCK_MONOTONIC, &start); 
-        quickSort(A, 0, n - 1);
-        clock_gettime(CLOCK_MONOTONIC, &end); 
+        start = clock(); 
 
-        double time_taken = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
-        fprintf(fp, "%d,%.6f\n", n, time_taken);
+        for (int i = 0; i < n - 1; i++) 
+        {
+            int min = i;
+            for (int j = i + 1; j < n; j++) 
+            {
+                if (A[j] < A[min]) 
+                {
+                    min = j;
+                }
+            }
+            int temp = A[i]; 
+            A[i] = A[min]; 
+            A[min] = temp;
+        }
+
+        end = clock();
+        cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+        fprintf(fp, "%d,%.6f\n", n, cpu_time_used);
     }
-
     fclose(fp);
-    printf("Experiment completed. Results saved to time_vs_n_quick.csv.\n");
+    printf("Experiment completed. Results saved to time_vs_n_selection.csv.\n");
     return 0;
 }
 
