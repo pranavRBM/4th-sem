@@ -43,7 +43,7 @@ int main()
         }
     }
 
-    print("\n")
+    printf("\n");
 
     int target;
     printf("Enter the number to search: ");
